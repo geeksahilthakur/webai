@@ -94,9 +94,9 @@ def get_data():
 
 if __name__ == '__main__':
     load_data()  # Load data initially
-    update_thread = Thread(target=update_data)
-    update_thread.daemon = True
-    update_thread.start()
+    # update_thread = Thread(target=update_data)
+    # update_thread.daemon = True
+    # update_thread.start()
     app.run(debug=False, host='0.0.0.0')
 
 
