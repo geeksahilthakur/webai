@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mate Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card-container" id="card-container">
+        </div>
+    </div>
+    <script>
+        function fetchData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    let cardContainer = document.getElementById('card-container');
+                    cardContainer.innerHTML = ''; // Clear previous content
+                    data.forEach(item => {
+                        let card = document.createElement('div');
+                        card.classList.add('card');
+                        card.innerHTML = `
+                            <h2>${item.title}</h2>
+                            <img src="${item.image}" alt="${item.title}">
+                            <p>${item.para}</p>
+                        `;
+                        cardContainer.appendChild(card);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Fetch data initially
+        fetchData();
+
+        // Fetch data every second
+        setInterval(fetchData, 1000);
+    </script>
+</body>
+</html>
