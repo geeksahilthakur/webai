@@ -14,20 +14,29 @@
     <script>
         function fetchData() {
             fetch('/data')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    let cardContainer = document.getElementById('card-container');
-                    cardContainer.innerHTML = ''; // Clear previous content
-                    data.forEach(item => {
-                        let card = document.createElement('div');
-                        card.classList.add('card');
-                        card.innerHTML = `
-                            <h2>${item.title}</h2>
-                            <img src="${item.image}" alt="${item.title}">
-                            <p>${item.para}</p>
-                        `;
-                        cardContainer.appendChild(card);
-                    });
+                    if (data && Array.isArray(data)) {
+                        let cardContainer = document.getElementById('card-container');
+                        cardContainer.innerHTML = ''; // Clear previous content
+                        data.forEach(item => {
+                            let card = document.createElement('div');
+                            card.classList.add('card');
+                            card.innerHTML = `
+                                <h2>${item.title}</h2>
+                                <img src="${item.image}" alt="${item.title}">
+                                <p>${item.para}</p>
+                            `;
+                            cardContainer.appendChild(card);
+                        });
+                    } else {
+                        throw new Error('Invalid data format');
+                    }
                 })
                 .catch(error => console.error('Error:', error));
         }
@@ -35,8 +44,8 @@
         // Fetch data initially
         fetchData();
 
-        // Fetch data every second
-        setInterval(fetchData, 1000);
+        // Fetch data every 5 seconds
+        setInterval(fetchData, 5000);
     </script>
 </body>
 </html>
