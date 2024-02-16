@@ -49,44 +49,44 @@ def load_data():
 
 
 # Fetch data from server and update JSON file
-def update_data():
-    global global_data
-    while True:
-        try:
-            url = 'https://mateserver.onrender.com/all-data'
-            response = requests.get(url)
+# def update_data():
+#     global global_data
+#     while True:
+#         try:
+#             url = 'https://mateserver.onrender.com/all-data'
+#             response = requests.get(url)
 
-            if response.status_code == 200:
-                try:
-                    # Parse the JSON response
-                    data = response.json()
+#             if response.status_code == 200:
+#                 try:
+#                     # Parse the JSON response
+#                     data = response.json()
 
-                    # Format the data into a list of dictionaries
-                    formatted_data = []
-                    for key, value in data.items():
-                        item = {
-                            "title": value.get("title", ""),
-                            "image": value.get("image", ""),
-                            "para": value.get("para", "")
-                        }
-                        formatted_data.append(item)
+#                     # Format the data into a list of dictionaries
+#                     formatted_data = []
+#                     for key, value in data.items():
+#                         item = {
+#                             "title": value.get("title", ""),
+#                             "image": value.get("image", ""),
+#                             "para": value.get("para", "")
+#                         }
+#                         formatted_data.append(item)
 
-                    # Write the formatted data to a JSON file
-                    with open('formatted_data.json', 'w') as file:
-                        json.dump(formatted_data, file, indent=4)
-                    print("Data has been successfully written to 'formatted_data.json'.")
-                    global_data = formatted_data
+#                     # Write the formatted data to a JSON file
+#                     with open('formatted_data.json', 'w') as file:
+#                         json.dump(formatted_data, file, indent=4)
+#                     print("Data has been successfully written to 'formatted_data.json'.")
+#                     global_data = formatted_data
 
-                except json.JSONDecodeError:
-                    print("Error: Failed to decode JSON response from the server.")
+#                 except json.JSONDecodeError:
+#                     print("Error: Failed to decode JSON response from the server.")
 
-            else:
-                print(f"Error: Failed to fetch data from the server. Status code: {response.status_code}")
+#             else:
+#                 print(f"Error: Failed to fetch data from the server. Status code: {response.status_code}")
 
-            time.sleep(60)  # Fetch data every 60 seconds
+#             time.sleep(60)  # Fetch data every 60 seconds
 
-        except Exception as e:
-            print("Error occurred:", str(e))
+#         except Exception as e:
+#             print("Error occurred:", str(e))
 
 
 @app.route('/')
