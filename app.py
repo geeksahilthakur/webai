@@ -38,16 +38,17 @@ global_data = []
 
 # Load data from JSON file
 def load_data():
-    global global_data
+    json_file_path = os.path.join('static', 'formatted_data.json')
     try:
-        with open('formatted_data.json', 'r') as f:
-            global_data = json.load(f)
+        with open(json_file_path, 'r') as f:
+            data = json.load(f)
+        return data
     except FileNotFoundError:
         print("Error: JSON file not found.")
-        global_data = []
+        return []
     except json.JSONDecodeError:
         print("Error: JSON decoding failed.")
-        global_data = []
+        return []
 
 # Fetch data from server and update JSON file
 def update_data():
